@@ -1,0 +1,14 @@
+name: SwapperLabPlugin
+version: '${project.version}'
+main: com.github.shin_ideal.swapperlabplugin.SwapperLabPlugin
+authors: [ Shin ]
+api-version: '1.16'
+commands:
+  getswapitem:
+    description: Get Swap Item.
+    aliases: [ gsi ]
+    permission: SwapperLabPlugin.getswapitem
+permissions:
+  SwapperLabPlugin.getswapitem:
+    description: Get Swap Item Command Permission.
+    default: true
