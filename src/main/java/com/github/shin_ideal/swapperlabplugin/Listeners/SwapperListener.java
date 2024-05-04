@@ -81,6 +81,7 @@ public class SwapperListener implements Listener {
         RayTraceResult swapResult = player.getWorld().rayTraceEntities(player.getPlayer().getEyeLocation(), player.getPlayer().getEyeLocation().getDirection(), 20,
                 entity -> entity instanceof Player
                         && !entity.equals(player)
+                        && player.hasLineOfSight(entity)
                         && !((Player) entity).getGameMode().equals(GameMode.SPECTATOR)
                         && (finalPlayerTeam == null || !finalPlayerTeam.hasEntry(entity.getName()))
                         && (!((Player) entity).hasPotionEffect(PotionEffectType.INVISIBILITY) || ((Player) entity).getInventory().getArmorContents()[0] != null || ((Player) entity).getInventory().getArmorContents()[1] != null || ((Player) entity).getInventory().getArmorContents()[2] != null || ((Player) entity).getInventory().getArmorContents()[3] != null)
