@@ -69,10 +69,10 @@ public class SwapperListener implements Listener {
 
         event.setCancelled(true);
 
-        Material playerBlockUp = player.getWorld().getBlockAt((int) Math.floor(player.getLocation().getX()), (int) (player.getLocation().getY() + 1), (int) Math.floor(player.getLocation().getZ())).getType();
-        Material playerBlockDown = player.getWorld().getBlockAt((int) Math.floor(player.getLocation().getX()), (int) (player.getLocation().getY()), (int) Math.floor(player.getLocation().getZ())).getType();
-        Material playerUnderBlock = player.getWorld().getBlockAt((int) Math.floor(player.getLocation().getX()), (int) (player.getLocation().getY() - 1), (int) Math.floor(player.getLocation().getZ())).getType();
-        if (isSolid(playerUnderBlock)) {
+        Material playerBlockUp = player.getEyeLocation().getBlock().getType();
+        Material playerBlockDown = player.getLocation().getBlock().getType();
+        Material playerUnderBlock = player.getLocation().clone().add(0, -1, 0).getBlock().getType();
+        if (isNotSolid(playerUnderBlock) && isNotSolid(playerBlockDown)) {
             player.sendMessage(ChatColor.RED + "Can only swap when standing on solid ground!");
             return;
         }
@@ -102,8 +102,13 @@ public class SwapperListener implements Listener {
             return;
         }
 
-        if (!isSolid(playerBlockUp) || !isSolid(playerBlockDown)) {
+        if (!isNotSolid(playerBlockUp) || !isNotSolid(playerBlockDown)) {
             player.sendMessage(ChatColor.RED + "You cannot swap while inside blocks.");
+            return;
+        }
+
+        if (player.getLocation().getBlock().equals(player.getEyeLocation().getBlock())) {
+            player.sendMessage(ChatColor.RED + "You cannot swap while in a confined space.");
             return;
         }
 
@@ -177,7 +182,7 @@ public class SwapperListener implements Listener {
         }
     }
 
-    private boolean isSolid(Material material) {
+    private boolean isNotSolid(Material material) {
         if (!material.isSolid() || material.equals(Material.COBWEB) || material.equals(Material.BAMBOO_SAPLING)) {
             return true;
         }
